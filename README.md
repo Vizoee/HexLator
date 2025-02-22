@@ -7,7 +7,7 @@ The Focal Port from https://github.com/SamsTheNerd/ducky-periphs is required to 
 ## Installation
 Download and run the installer on a ComputerCraft computer (this will replace the existing startup.lua file at root):
 ```
-wget https://raw.githubusercontent.com/Shirtsy/HexLator/main/install_hexlator.lua
+wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator.lua
 ```
 
 ## Usage example
@@ -27,8 +27,15 @@ Compass Purification
 
 Bookkeeper's Gambit and Numerical Reflection are used as such. The latter supports positive and negative integers:
 ```
-Bookkeeper's Gambit(-vv---)
-Numerical Reflection(-367)
+Bookkeeper's Gambit: -vv---
+Numerical Reflection: -367
+```
+
+Additionally Sekhmet's Gambit, Geb's Gambit and Nut's Gambit are also supported (mininal value is 2):
+```
+Sekhmet's Gambit: 3
+Geb's Gambit: 5
+Nut's Gambit: 3
 ```
 
 The following frequently used symbols have aliases you can use instead if you so choose:
@@ -69,6 +76,8 @@ Numerical Reflection           //Pattern via name
 ```#wget(<filepath>)(<url>)``` will attempt to use the wget utility packaged with the default ComputerCraft ROM to download and load a given file at time of compilation (overwriting any existing file at the same path). This makes it far easier to set up a build environment, and can allow for a complex hex AND its dependancies to all be downloaded with a single HexGet command.
 
 If statements and for loops are not implicit constructs, but they are implemented as functions and documented in [syntax_utils.hexpattern](https://github.com/Shirtsy/HexLator/blob/main/utils/syntax_utils.hexpattern), you can make them available to your code by including ```#wget(syntax_utils.hexpattern)(https://github.com/Shirtsy/HexLator/raw/dev/utils/syntax_utils.hexpattern)``` in your file.
+
+```#git(<filepath>)``` will attempt to download and load a given file from same repository at time of compilation. This makes it far easier to set up a build environment, and can allow for a complex hex AND its dependancies to all be downloaded with a single HexGet command.
 
 example.hexpattern:
 ```
