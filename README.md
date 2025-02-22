@@ -13,7 +13,7 @@ wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator.lua
 ## Usage example
 Compile a .hexpattern from the internet into a Focus:
 ```
-hexget https://raw.githubusercontent.com/Shirtsy/HexLator/main/example.hexpattern
+hexget https://raw.githubusercontent.com/Vizoee/HexLator/main/example.hexpattern
 ```
 
 ## Syntax
@@ -115,3 +115,9 @@ Output:
 ```
 [0,1,2,3,4,5,6,7,8,9]
 ```
+
+### TODO List
+
+- Add argument to disable usage of github api
+- Add fast dictionary declaration
+- Add code wrapper support
