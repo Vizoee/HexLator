@@ -20,8 +20,6 @@ end
 local install_path_symbol
 if not args[3] or args[3] == true then
     install_path_symbol = "/programfiles/hexlator/"
-end
-
 else
     install_path_symbol = install_path
 end

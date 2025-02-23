@@ -10,6 +10,11 @@ Download and run the installer on a ComputerCraft computer (this will replace th
 wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator.lua
 ```
 
+Alternatively you can run installer that will additionally place all programs on floppy disk:
+```
+wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator_floppy.lua
+```
+
 ## Usage example
 Compile a .hexpattern from the internet into a Focus:
 ```
@@ -122,3 +127,6 @@ Output:
 - Add fast dictionary declaration
 - Add code wrapper support
 - Fix words in @str(...) being interpreted as patterns
+- Add to hexget ability to return iota instead of writing it to focus
+- Improve caching
+- Add detection for rate limit error 
