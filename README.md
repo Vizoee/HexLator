@@ -121,3 +121,4 @@ Output:
 - Add argument to disable usage of github api
 - Add fast dictionary declaration
 - Add code wrapper support
+- Fix words in @str(...) being interpreted as patterns
