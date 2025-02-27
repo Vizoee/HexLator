@@ -39,6 +39,10 @@ local function stripString(iString)
     return rString
 end
 
+local function stripWhitespaces(s)
+    return string.gsub(s, "%s+", "")
+end
+
 --load raw symbol registry translation table
 local symbolRegistry = {}
 for k,v in pairs(srRaw) do
@@ -121,8 +125,8 @@ local identRegistry = {
             ["false"] = false
         }
         local returnTable =  {
-            ["isItem"] =  bools[stripString(valTable[2])],
-            ["itemType"] = valTable[1],
+            ["isItem"] =  bools[stripWhitespaces(valTable[2])],
+            ["itemType"] = stripWhitespaces(valTable[1]),
         }
         return returnTable
     end,
