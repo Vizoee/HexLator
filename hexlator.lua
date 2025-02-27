@@ -122,7 +122,7 @@ local identRegistry = {
         }
         local returnTable =  {
             ["isItem"] =  bools[stripString(valTable[2])],
-            ["itemType"] = stripString(valTable[1]),
+            ["itemType"] = valTable[1],
         }
         return returnTable
     end,
