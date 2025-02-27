@@ -571,6 +571,7 @@ local function removeOverlappingTokens(tokens)
 end
 
 local function compile(str, stripped, verbose, debug_output)
+    local rawstr = str
     if verbose ~= nil then
         gVerb = verbose
     end
@@ -584,12 +585,6 @@ local function compile(str, stripped, verbose, debug_output)
 
     -- Process string to remove comments and embed files and functions
     str = stringProcess(str)
-
-    if debug_output == true then
-        local f = fs.open(getRunningPath().."debug.txt", "w")
-        f.write(str)
-        f.close()
-    end
 
     local searches = {}
 
@@ -607,6 +602,36 @@ local function compile(str, stripped, verbose, debug_output)
     local tokens = removeOverlappingTokens(sortTokens(combineTables(searches)))
     local output = compileChunk(tokens)
     --print(#output)
+
+    if debug_output == true then
+        local debug_data = [[ 
+            ========= RAW STRING ========= 
+    
+            ]] .. rawstr
+
+        debug_data = debug_data .. [[
+
+        ========= PROCESSED STRING ========= 
+        
+        ]] .. str
+
+        debug_data = debug_data .. [[
+
+        ========= SEARCHES ========= 
+        
+        ]]
+
+        for index, value in ipairs(searches) do
+            debug_data = debug_data .. index .. " : " .. value .. [[
+                
+            ]]
+        end
+
+        local f = fs.open(getRunningPath().."debug.txt", "w")
+        f.write(debug_data)
+        f.close()
+    end
+
     return output
 end
 
