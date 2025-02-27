@@ -487,11 +487,11 @@ local function table_to_string(t,indent)
     local output = ""
     for key, value in pairs(t) do
         if type(value) == "table" then
-            output = output .. string.rep("  ", indent) .. key .. " = {"
+            output = output .. string.rep("  ", indent) .. key .. " = {\n"
             table_to_string(value, indent + 1)
-            output = output .. string.rep("  ", indent) .. "}"
+            output = output .. string.rep("  ", indent) .. "}\n"
         else
-            output = output .. string.rep("  ", indent) .. key .. " = " .. tostring(value)
+            output = output .. string.rep("  ", indent) .. key .. " = " .. tostring(value) .. "\n"
         end
     end
     return output
@@ -586,7 +586,7 @@ local function removeOverlappingTokens(tokens)
 end
 
 local function compile(str, stripped, verbose, debug_output)
-    local rawstr = str
+    local rawStr = str
     if verbose ~= nil then
         gVerb = verbose
     end
@@ -619,26 +619,21 @@ local function compile(str, stripped, verbose, debug_output)
     --print(#output)
 
     if debug_output == true then
-        local debug_data = [[ 
-========= RAW STRING ========= 
+        local function label(s)
+            return [[ 
+                ========= ]] .. s .. [[ ========= 
+                
+                ]]
+        end
 
-]] .. rawstr
-
-        debug_data = debug_data .. [[
-
-========= PROCESSED STRING ========= 
-
-]] .. str
-
-        debug_data = debug_data .. [[
-
-========= OUTPUT ========= 
-
-]]
-        debug_data = debug_data .. table_to_string(output)
+        local debugData = label("RAW STRING") .. rawStr
+        debugData = debugData .. label("PROCESSED STRING") .. str
+        debugData = debugData .. label("SEARCHES") .. table_to_string(searches)
+        debugData = debugData .. label("TOKENS") .. table_to_string(tokens)
+        debugData = debugData .. label("OUTPUT") .. table_to_string(output)
 
         local f = fs.open(getRunningPath().."debug.txt", "w")
-        f.write(debug_data)
+        f.write(debugData)
         f.close()
     end
 
