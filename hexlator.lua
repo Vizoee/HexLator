@@ -482,6 +482,21 @@ local function dump_table(t,indent)
     end
 end
 
+local function table_to_string(t,indent)
+    indent = indent or 0    
+    local output = ""
+    for key, value in pairs(t) do
+        if type(value) == "table" then
+            output = output .. string.rep("  ", indent) .. key .. " = {"
+            table_to_string(value, indent + 1)
+            output = output .. string.rep("  ", indent) .. "}"
+        else
+            output = output .. string.rep("  ", indent) .. key .. " = " .. tostring(value)
+        end
+    end
+    return output
+end
+
 local function compileChunk(tokens)
     for k,v in pairs(tokens) do
         if v["content"] == "%[" then
@@ -620,7 +635,7 @@ local function compile(str, stripped, verbose, debug_output)
 ========= OUTPUT ========= 
 
 ]]
-        debug_data = debug_data .. output
+        debug_data = debug_data .. table_to_string(output)
 
         local f = fs.open(getRunningPath().."debug.txt", "w")
         f.write(debug_data)
