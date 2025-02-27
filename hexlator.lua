@@ -617,18 +617,6 @@ local function compile(str, stripped, verbose, debug_output)
 
         debug_data = debug_data .. [[
 
-========= SEARCHES ========= 
-
-]]
-
-        for index, value in pairs(searches["identifiers"]) do
-            debug_data = debug_data .. index .. " : " .. value .. [[
-
-]]
-        end
-
-        debug_data = debug_data .. [[
-
 ========= OUTPUT ========= 
 
 ]]
