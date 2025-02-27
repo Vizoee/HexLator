@@ -121,8 +121,8 @@ local identRegistry = {
             ["false"] = false
         }
         local returnTable =  {
-            ["itemType"] = valTable[1],
             ["isItem"] =  bools[valTable[2]],
+            ["itemType"] = valTable[1],
         }
         return returnTable
     end,
