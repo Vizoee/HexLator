@@ -629,15 +629,10 @@ local function compile(str, stripped, verbose, debug_output)
 
         debug_data = debug_data .. [[
 
-========= TOKENS ========= 
+========= OUTPUT ========= 
 
 ]]
-
-        for index, value in ipairs(tokens) do
-            debug_data = debug_data .. index .. " : " .. value .. [[
-
-        ]]
-        end
+        debug_data = debug_data .. output
 
         local f = fs.open(getRunningPath().."debug.txt", "w")
         f.write(debug_data)
