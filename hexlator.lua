@@ -488,7 +488,7 @@ local function table_to_string(t,indent)
     for key, value in pairs(t) do
         if type(value) == "table" then
             output = output .. string.rep("  ", indent) .. key .. " = {\n"
-            table_to_string(value, indent + 1)
+            output = output .. table_to_string(value, indent + 1)
             output = output .. string.rep("  ", indent) .. "}\n"
         else
             output = output .. string.rep("  ", indent) .. key .. " = " .. tostring(value) .. "\n"
