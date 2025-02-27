@@ -605,26 +605,38 @@ local function compile(str, stripped, verbose, debug_output)
 
     if debug_output == true then
         local debug_data = [[ 
-            ========= RAW STRING ========= 
-    
-            ]] .. rawstr
+========= RAW STRING ========= 
+
+]] .. rawstr
 
         debug_data = debug_data .. [[
 
-        ========= PROCESSED STRING ========= 
-        
-        ]] .. str
+========= PROCESSED STRING ========= 
+
+]] .. str
 
         debug_data = debug_data .. [[
 
-        ========= SEARCHES ========= 
-        
-        ]]
+========= SEARCHES ========= 
+
+]]
 
         for index, value in pairs(searches["identifiers"]) do
             debug_data = debug_data .. index .. " : " .. value .. [[
 
-            ]]
+]]
+        end
+
+        debug_data = debug_data .. [[
+
+========= TOKENS ========= 
+
+]]
+
+        for index, value in ipairs(tokens) do
+            debug_data = debug_data .. index .. " : " .. value .. [[
+
+        ]]
         end
 
         local f = fs.open(getRunningPath().."debug.txt", "w")
