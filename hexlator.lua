@@ -605,6 +605,7 @@ local function compile(str, stripped, verbose, debug_output)
 
     vPrint("Parsing identifiers...")
     searches["identifiers"] = tokenSearch(str, identRegistry)
+    local searchesCopy = searches
     for _,v in pairs(searches["identifiers"]) do
         runTokenFunc(str, identRegistry, v)
     end
@@ -620,14 +621,12 @@ local function compile(str, stripped, verbose, debug_output)
 
     if debug_output == true then
         local function label(s)
-            return [[ 
-                ========= ]] .. s .. [[ ========= 
-                
-                ]]
+            return "\n ========= " .. s .. " ========= \n\n"
         end
 
         local debugData = label("RAW STRING") .. rawStr
         debugData = debugData .. label("PROCESSED STRING") .. str
+        debugData = debugData .. label("SEARCHES COPY") .. table_to_string(searchesCopy)
         debugData = debugData .. label("SEARCHES") .. table_to_string(searches)
         debugData = debugData .. label("TOKENS") .. table_to_string(tokens)
         debugData = debugData .. label("OUTPUT") .. table_to_string(output)
