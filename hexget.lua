@@ -69,7 +69,15 @@ local hexlator = require("hexlator")
 local stripped = false
 local verbose = true
 local compiled = hexlator.compile(res, stripped, verbose, debug)
-hexlator.writeToFocus(compiled)
 
+if #tArgs < 1 then
+    hexlator.writeToFocus(compiled)
+else
+    local folder = table.remove(tArgs, 1)
+    local file = fs.open(folder, "w")
+    local serialized = textutils.serialize(compiled)
+    file.write(serialized)
+    file.close()
+end
 
 return {version = version}
