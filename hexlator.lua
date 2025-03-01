@@ -371,7 +371,8 @@ local stringProccessRegistry = {
         -- Strip line comments from string before inserting
         funcBody = string.gsub(funcBody, "// .-\n", "")
         local out = s:sub(1,token["start"]-1) .. s:sub(lastC2+1)
-
+        
+        -- add function to the registry
         reg["$"..funcName] = function(s, token)
             local funcStr = funcBody
 
@@ -382,7 +383,9 @@ local stringProccessRegistry = {
                 if i then
                     local arg,_,lastChar = getBalancedParens(s, lastC)
                     lastC = lastChar
-                    funcStr = funcStr:sub(1,i-1).." "..arg.." "..funcStr:sub(j+1)
+                    -- replace parameters with proper values (old version is commented out just in case)
+                    -- funcStr = funcStr:sub(1,i-1).." "..arg.." "..funcStr:sub(j+1)
+                    funcStr = funcStr:gsub(string.format("<%s>", argCounter, arg))
                     argCounter = argCounter + 1
                 else
                     break
