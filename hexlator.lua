@@ -385,7 +385,7 @@ local stringProccessRegistry = {
                     lastC = lastChar
                     -- replace parameters with proper values (old version is commented out just in case)
                     -- funcStr = funcStr:sub(1,i-1).." "..arg.." "..funcStr:sub(j+1)
-                    funcStr = funcStr:gsub(string.format("<%s>", argCounter, arg))
+                    funcStr = string.gsub(funcStr, string.format("<%s>", argCounter, arg))
                     argCounter = argCounter + 1
                 else
                     break
