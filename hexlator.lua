@@ -50,6 +50,7 @@ for k,v in pairs(srRaw) do
     symbolRegistry[sName] = {
         ["angles"] = v["pattern"],
         ["startDir"] = v["direction"],
+        ["iota$serde"] = "hextweaks:pattern",
     }
 end
 symbolRegistry["{"] = symbolRegistry["Introspection"]
@@ -64,6 +65,7 @@ for k,v in pairs(srRaw) do
     strippedRegistry[sName] = {
         ["angles"] = v["pattern"],
         ["startDir"] = v["direction"],
+        ["iota$serde"] = "hextweaks:pattern",
     }
 end
 strippedRegistry["{"] = strippedRegistry["Introspection"]
@@ -140,6 +142,7 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = valTable[1],
             ["angles"] = valTable[2],
+            ["iota$serde"] = "hextweaks:pattern",
         }
         return returnTable
     end,
@@ -202,6 +205,7 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = "WEST",
             ["angles"] = angles,
+            ["iota$serde"] = "hextweaks:pattern",
         }
         return returnTable
     end,
@@ -228,6 +232,7 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = "EAST",
             ["angles"] = angles,
+            ["iota$serde"] = "hextweaks:pattern",
         }
         return returnTable
     end,
@@ -245,6 +250,7 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = "WEST",
             ["angles"] = angles,
+            ["iota$serde"] = "hextweaks:pattern",
         }
         return returnTable
     end,
@@ -259,6 +265,7 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = "WEST",
             ["angles"] = angles,
+            ["iota$serde"] = "hextweaks:pattern",
         }
         return returnTable
     end,
@@ -273,6 +280,7 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = "WEST",
             ["angles"] = angles,
+            ["iota$serde"] = "hextweaks:pattern",
         }
         return returnTable
     end
@@ -413,7 +421,8 @@ end
 local function setSymbolValue(s, registry, token)
     token["value"] = {
         ["startDir"] = registry[token["content"]]["startDir"],
-        ["angles"] = registry[token["content"]]["angles"]
+        ["angles"] = registry[token["content"]]["angles"],
+        ["iota$serde"] = "hextweaks:pattern",
     }
 end
 
