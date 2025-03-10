@@ -3,6 +3,8 @@ local version = "0.9.3"
 --controls all print outputs
 local gVerb = true
 
+local turtleComplie = false
+
 local github = require("github")
 
 local function vPrint(s)
@@ -22,7 +24,7 @@ local srFile
 if fs.exists(getRunningPath() .. "symbol-registry.json") then
     srFile = fs.open(getRunningPath() .. "symbol-registry.json", "r")
 else
-    srFile = fs.open("/programfiles/hexlator/" .. "symbol-registry.json", "r")
+    srFile = fs.open("/disk/hexlator/" .. "symbol-registry.json", "r")
 end
 local srRaw = textutils.unserialiseJSON(srFile.readAll())
 if not srFile then
@@ -50,8 +52,10 @@ for k,v in pairs(srRaw) do
     symbolRegistry[sName] = {
         ["angles"] = v["pattern"],
         ["startDir"] = v["direction"],
-        ["iota$serde"] = "hextweaks:pattern",
     }
+    if turtleComplie then
+        symbolRegistry[sName]["iota$serde"] = "hextweaks:pattern"
+    end
 end
 symbolRegistry["{"] = symbolRegistry["Introspection"]
 symbolRegistry["}"] = symbolRegistry["Retrospection"]
@@ -65,8 +69,10 @@ for k,v in pairs(srRaw) do
     strippedRegistry[sName] = {
         ["angles"] = v["pattern"],
         ["startDir"] = v["direction"],
-        ["iota$serde"] = "hextweaks:pattern",
     }
+    if turtleComplie then
+        strippedRegistry[sName]["iota$serde"] = "hextweaks:pattern"
+    end
 end
 strippedRegistry["{"] = strippedRegistry["Introspection"]
 strippedRegistry["}"] = strippedRegistry["Retrospection"]
@@ -142,8 +148,10 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = valTable[1],
             ["angles"] = valTable[2],
-            ["iota$serde"] = "hextweaks:pattern",
         }
+        if turtleComplie then
+            returnTable["iota$serde"] = "hextweaks:pattern"
+        end
         return returnTable
     end,
     ["@gate"] = function(s, token)
@@ -205,8 +213,10 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = "WEST",
             ["angles"] = angles,
-            ["iota$serde"] = "hextweaks:pattern",
         }
+        if turtleComplie then
+            returnTable["iota$serde"] = "hextweaks:pattern"
+        end
         return returnTable
     end,
     ["Bookkeeper's Gambit"] = function(s, token)
@@ -232,8 +242,10 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = "EAST",
             ["angles"] = angles,
-            ["iota$serde"] = "hextweaks:pattern",
         }
+        if turtleComplie then
+            returnTable["iota$serde"] = "hextweaks:pattern"
+        end
         return returnTable
     end,
     ["Sekhmet's Gambit"] = function(s, token)
@@ -250,8 +262,10 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = "WEST",
             ["angles"] = angles,
-            ["iota$serde"] = "hextweaks:pattern",
         }
+        if turtleComplie then
+            returnTable["iota$serde"] = "hextweaks:pattern"
+        end
         return returnTable
     end,
     ["Geb's Gambit"] = function(s, token)
@@ -265,8 +279,10 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = "WEST",
             ["angles"] = angles,
-            ["iota$serde"] = "hextweaks:pattern",
         }
+        if turtleComplie then
+            returnTable["iota$serde"] = "hextweaks:pattern"
+        end
         return returnTable
     end,
     ["Nut's Gambit"] = function(s, token)
@@ -280,8 +296,10 @@ local identRegistry = {
         local returnTable =  {
             ["startDir"] = "WEST",
             ["angles"] = angles,
-            ["iota$serde"] = "hextweaks:pattern",
         }
+        if turtleComplie then
+            returnTable["iota$serde"] = "hextweaks:pattern"
+        end
         return returnTable
     end
 }
@@ -422,8 +440,10 @@ local function setSymbolValue(s, registry, token)
     token["value"] = {
         ["startDir"] = registry[token["content"]]["startDir"],
         ["angles"] = registry[token["content"]]["angles"],
-        ["iota$serde"] = "hextweaks:pattern",
     }
+    if turtleComplie then
+        token["value"] = "hextweaks:pattern"
+    end
 end
 
 -- Walks through a string and checks for presence of tokens from registry and initializes them

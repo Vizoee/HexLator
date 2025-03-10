@@ -10,7 +10,7 @@ Download and run the installer on a ComputerCraft computer (this will replace th
 wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator.lua
 ```
 
-Alternatively you can run installer that will additionally place all programs on floppy disk:
+Alternatively you can run installer that will additionally place all patterns on floppy disk:
 ```
 wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator_floppy.lua
 ```
