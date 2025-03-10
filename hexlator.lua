@@ -144,7 +144,6 @@ local identRegistry = {
     end,
     ["@pattern"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
-        print(str)
         local valTable = splitCommas(str)
         local returnTable =  {
             ["startDir"] = valTable[1],
@@ -153,6 +152,7 @@ local identRegistry = {
         if turtleComplie then
             returnTable["iota$serde"] = "hextweaks:pattern"
         end
+        print(valTable[1], valTable[2], returnTable["startDir"], returnTable["angles"])
         return returnTable
     end,
     ["@gate"] = function(s, token)
