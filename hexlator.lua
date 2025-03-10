@@ -152,7 +152,6 @@ local identRegistry = {
         if turtleComplie then
             returnTable["iota$serde"] = "hextweaks:pattern"
         end
-        print(valTable[1], valTable[2], returnTable["startDir"], returnTable["angles"])
         return returnTable
     end,
     ["@gate"] = function(s, token)
