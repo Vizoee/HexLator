@@ -144,6 +144,7 @@ local identRegistry = {
     end,
     ["@pattern"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
+        print(str)
         local valTable = splitCommas(str)
         local returnTable =  {
             ["startDir"] = valTable[1],
