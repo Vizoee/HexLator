@@ -3,7 +3,7 @@ local version = "0.9.3"
 --controls all print outputs
 local gVerb = true
 
-local turtleComplie = false
+local turtleComplie = peripheral.find("wand") ~= nil
 
 local github = require("github")
 
@@ -674,17 +674,23 @@ local function compile(str, stripped, verbose, debug_output)
 end
 
 local function writeToFocus(tab)
-    --dump_table(tab,1)
-    local focal_port = peripheral.find("focal_port")
-    if not focal_port then
-        vPrint("Cannot write! No focal port found.")
-    elseif not focal_port.hasFocus() then
-        vPrint("Cannot write! No focus found.")
-    elseif not focal_port.canWriteIota() then
-        vPrint("Cannot write! This won't compile!")
+    local wand = peripheral.find("wand")
+    if wand then
+        wand.pushStack(tab)
+        wand.runPattern("EAST", "deeeee")
     else
-        focal_port.writeIota(tab)
-        vPrint("Compiled to focus!")
+        --dump_table(tab,1)
+        local focal_port = peripheral.find("focal_port")
+        if not focal_port then
+            vPrint("Cannot write! No focal port found.")
+        elseif not focal_port.hasFocus() then
+            vPrint("Cannot write! No focus found.")
+        elseif not focal_port.canWriteIota() then
+            vPrint("Cannot write! This won't compile!")
+        else
+            focal_port.writeIota(tab)
+            vPrint("Compiled to focus!")
+        end
     end
 end
 
