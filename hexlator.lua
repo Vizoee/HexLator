@@ -83,7 +83,7 @@ strippedRegistry["Numerical_Reflection"] = nil
 -- Given a string and start location, returns everything within a balanced set of parentheses, as well
 -- as the start and end locations
 local function getBalancedParens(s, startLoc)
-    local firstC, lastC, str = string.find(s, "%b()", startLoc)
+    local firstC, lastC, str = string.find(s, "(%b())", startLoc)
     return string.sub(str, 2, -2), firstC, lastC
 end
 
