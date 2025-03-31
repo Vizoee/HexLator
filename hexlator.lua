@@ -166,6 +166,9 @@ local identRegistry = {
             ["y"] = tonumber(valTable[2]),
             ["z"] = tonumber(valTable[3])
         }
+        if turtleComplie then
+            token["value"]["iota$serde"] = "hextweaks:vec3"
+        end
         return returnTable
     end,
     ["@matrix"] = function(s, token)
@@ -442,7 +445,7 @@ local function setSymbolValue(s, registry, token)
         ["angles"] = registry[token["content"]]["angles"],
     }
     if turtleComplie then
-        token["value"] = "hextweaks:pattern"
+        token["value"]["iota$serde"] = "hextweaks:pattern"
     end
 end
 
@@ -537,7 +540,11 @@ local function compileChunk(tokens)
     for k,v in pairs(tokens) do
         if v["content"] == "%[" then
             vPrint("List start...")
-            stack.push({})
+            if turtleComplie then
+                stack.push({["iota$serde"] = "hextweaks:list"})
+            else
+                stack.push({["iota$serde"] = "hextweaks:list"})
+            end
         elseif v["content"] == "%]" then
             vPrint("... list end.")
             local j = stack.pop()
