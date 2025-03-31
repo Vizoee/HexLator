@@ -167,7 +167,7 @@ local identRegistry = {
             ["z"] = tonumber(valTable[3])
         }
         if turtleComplie then
-            token["value"]["iota$serde"] = "hextweaks:vec3"
+            returnTable["iota$serde"] = "hextweaks:vec3"
         end
         return returnTable
     end,
@@ -683,6 +683,11 @@ end
 local function writeToFocus(tab)
     local wand = peripheral.find("wand")
     if wand then
+        if #tab == 1 then
+            tab = tab[1]
+        else
+            tab["iota$serde"] = "hextweaks:list"
+        end
         wand.pushStack(tab)
         wand.runPattern("EAST", "deeeee")
     else
