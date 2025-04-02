@@ -34,6 +34,7 @@ shell.execute("wget", raw_url.."hexxyedit.lua", install_path.."hexxyedit.lua")
 shell.execute("wget", raw_url.."github.lua", install_path.."github.lua")
 shell.execute("wget", raw_url.."base64.lua", install_path.."base64.lua")
 shell.execute("wget", raw_url.."json.lua", install_path.."json.lua")
+shell.execute("wget", raw_url.."config.json", install_path.."config.json")
 
 shell.execute("delete", "/startup.lua")
 local file = fs.open("startup.lua","w")
