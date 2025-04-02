@@ -12,11 +12,37 @@ function github.convert_url(url)
 end
 
 function github.api_response(url)
+    local function getRunningPath()
+        local runningProgram = shell.getRunningProgram()
+        local programName = fs.getName(runningProgram)
+        return runningProgram:sub( 1, #runningProgram - #programName )
+    end
     -- Check if the URL is valid
     local ok, err = http.checkURL(url)
     if not ok then
-        printError(err or "Invalid URL.")
-        return
+        local config
+        if fs.exists(getRunningPath() .. "config.json") then
+            config = fs.open(getRunningPath() .. "config.json", "r")
+        else if fs.exists("/disk/hexlator/" .. "config.json") then
+                config = fs.open("/disk/hexlator/" .. "config.json", "r")
+            else
+                printError(err or "Invalid URL.")
+                return
+            end
+        end
+        local settings = textutils.unserialise(config.readAll())
+        config.close()
+        if settings["default_repo"] == "" then
+            printError(err or "Invalid URL.")
+            return
+        end
+        url = settings["default_repo"].."/blob/"..settings["branch"].."/"..url
+        print(url)
+        ok, err = http.checkURL(url)
+        if not ok then
+            printError(err or "Invalid URL.")
+            return
+        end
     end
 
     local apiurl = github.convert_url(url)
