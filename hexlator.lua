@@ -198,6 +198,10 @@ local identRegistry = {
         local str = getBalancedParens(s, token["start"])
         return str
     end,
+    ['@hexicon'] = function(s, token)
+        local str = getBalancedParens(s, token["start"])
+        return str
+    end,
     ["%["] = true,
     ["%]"] = true,
     ["Numerical Reflection"] = function(s, token)

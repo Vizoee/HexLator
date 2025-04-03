@@ -30,7 +30,7 @@ function github.api_response(url)
                 return
             end
         end
-        local settings = textutils.unserialise(config.readAll())
+        local settings = textutils.unserialiseJSON(config.readAll())
         config.close()
         if settings["default_repo"] == "" then
             printError(err or "Invalid URL.")
