@@ -218,14 +218,14 @@ local identRegistry = {
             ["q"] = "a",
             ["w"] = "q"
         }
-        local angles = ""
+        local angles = string.sub(hexicon.pattern[string.sub(str, 1, 1)], 2)
         for i = 2, #str do
-            local p = hexicon.pattern[string.sub(str, i, i)]
-            angles = angles 
-                    .. hexicon.offset[string.sub(str, i, i)] 
-                            and string.sub(p, 1, 1) 
-                            or firstStrokeFix[string.sub(p, 1, 1)]
-                    .. string.sub(p, 2)
+            local c = string.sub(str, i, i)
+            local p = hexicon.pattern[c]
+            local ps = string.sub(p, 1, 1) 
+            local fix = hexicon.offset[c] and firstStrokeFix[ps] or ps
+            print(c, p, ps, hexicon.offset[c], fix)
+            angles = angles .. fix .. string.sub(p, 2)
         end
         local returnTable =  {
             ["startDir"] = hexicon.start[str:sub(1, 1)],
