@@ -10,11 +10,6 @@ Download and run the installer on a ComputerCraft computer (this will replace th
 wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator.lua
 ```
 
-Alternatively you can run installer that will additionally place all patterns on floppy disk:
-```
-wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator_floppy.lua
-```
-
 ## Usage example
 Compile a .hexpattern from the internet into a Focus:
 ```
@@ -71,6 +66,7 @@ Numerical Reflection           //Pattern via name
 @item_type("type", isItem)     //Item and Block types via string and bool
 @mote("moteUuid", "itemID")    //Mote via strings
 @matrix(col, row, [matrix])    //Matrix
+@hexicon(ehe)                  //String to hexicon pattern
 ```
 
 ### Macros/Functions
