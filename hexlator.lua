@@ -20,7 +20,7 @@ local function getRunningPath()
 end
 
 local hexFile
-local hexFileName = ""
+local hexFileName = "hexicon.json"
 if fs.exists(getRunningPath() .. hexFileName) then
     hexFile = fs.open(getRunningPath() .. hexFileName, "r")
 else
@@ -214,9 +214,18 @@ local identRegistry = {
     end,
     ['@hexicon'] = function(s, token)
         local str = getBalancedParens(s, token["start"])
+        local firstStrokeFix = {
+            ["q"] = "a",
+            ["w"] = "q"
+        }
         local angles = ""
         for i = 2, #str do
-            angles = angles + hexicon.pattern[string.sub(str, i, i)]
+            local p = hexicon.pattern[string.sub(str, i, i)]
+            angles = angles 
+                    .. hexicon.offset[string.sub(str, i, i)] 
+                            and string.sub(p, 1, 1) 
+                            or firstStrokeFix[string.sub(p, 1, 1)]
+                    .. string.sub(p, 2)
         end
         local returnTable =  {
             ["startDir"] = hexicon.start[str:sub(1, 1)],
