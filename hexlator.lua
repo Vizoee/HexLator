@@ -19,18 +19,32 @@ local function getRunningPath()
     return runningProgram:sub( 1, #runningProgram - #programName )
 end
 
+local hexFile
+local hexFileName = ""
+if fs.exists(getRunningPath() .. hexFileName) then
+    hexFile = fs.open(getRunningPath() .. hexFileName, "r")
+else
+    hexFile = fs.open("/disk/hexlator/" .. hexFileName, "r")
+end
+if not hexFile then
+    vPrint("Could not find hexicon.json in the current directory")
+    return
+end
+local hexicon = textutils.unserialiseJSON(hexFile.readAll())
+
 --load symbol-registry.json
 local srFile
-if fs.exists(getRunningPath() .. "symbol-registry.json") then
-    srFile = fs.open(getRunningPath() .. "symbol-registry.json", "r")
+local srFileName = "symbol-registry.json"
+if fs.exists(getRunningPath() .. srFileName) then
+    srFile = fs.open(getRunningPath() .. srFileName, "r")
 else
-    srFile = fs.open("/disk/hexlator/" .. "symbol-registry.json", "r")
+    srFile = fs.open("/disk/hexlator/" .. srFileName, "r")
 end
-local srRaw = textutils.unserialiseJSON(srFile.readAll())
 if not srFile then
     vPrint("Could not find symbol-registry.json in the current directory")
     return
 end
+local srRaw = textutils.unserialiseJSON(srFile.readAll())
 
 -- Strips all non-alphanumerics plus underscores
 local function stripString(iString)
@@ -200,7 +214,18 @@ local identRegistry = {
     end,
     ['@hexicon'] = function(s, token)
         local str = getBalancedParens(s, token["start"])
-        return str
+        local angles = ""
+        for i = 2, #str do
+            angles = angles + hexicon.pattern[string.sub(str, i, i)]
+        end
+        local returnTable =  {
+            ["startDir"] = hexicon.start[str:sub(1, 1)],
+            ["angles"] = angles,
+        }
+        if turtleComplie then
+            returnTable["iota$serde"] = "hextweaks:pattern"
+        end
+        return returnTable
     end,
     ["%["] = true,
     ["%]"] = true,
