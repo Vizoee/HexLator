@@ -199,9 +199,9 @@ local identRegistry = {
         local str = getBalancedParens(s, token["start"])
         local valTable = splitCommas(str)
         local returnTable =  {
-            ["moteUuid"] = tonumber(valTable[1]),
+            ["moteUuid"] = valTable[1],
             ["itemID"] = tonumber(valTable[2]),
-            ["nexusUuid"] = tonumber(valTable[3])
+            ["nexusUuid"] = valTable[3]
         }
         return returnTable
     end,
