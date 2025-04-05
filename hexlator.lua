@@ -200,7 +200,7 @@ local identRegistry = {
         local valTable = splitCommas(str)
         local returnTable =  {
             ["moteUuid"] = valTable[1],
-            ["itemID"] = tonumber(valTable[2]),
+            ["itemID"] = valTable[2],
             ["nexusUuid"] = valTable[3]
         }
         return returnTable
