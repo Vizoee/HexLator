@@ -22,13 +22,20 @@ function github.api_response(url)
     
     local settings = textutils.unserialiseJSON(config.readAll())
     config.close()
-
+    local headers
     -- Check if the URL is valid
     local ok, err = http.checkURL(url)
     if not ok then
         if settings["default_repo"] == "" then
             printError(err or "No default repo.")
             return
+        end
+
+        if settings["token"] and settings["token"] ~= "" then
+            headers = {
+                ["Authorization"] = "token " .. settings["token"],
+                ["User-Agent"] = "ComputerCraft"
+            }
         end
 
         url = settings["default_repo"].."/blob/"..settings["branch"].."/"..url
@@ -48,12 +55,8 @@ function github.api_response(url)
     end
 
     local response
-    if settings["token"] and settings["token"] ~= "" then
+    if headers then
         print("Using token")
-        local headers = {
-            ["Authorization"] = "token " .. settings["token"],
-            ["User-Agent"] = "ComputerCraft"
-        }
         response = http.get(apiurl, headers).readAll()
     else
         response = http.get(apiurl).readAll()
