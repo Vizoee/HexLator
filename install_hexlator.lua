@@ -5,6 +5,7 @@ if not args[1] then
 elseif args[1] == "main" or args[1] == "dev" then
     branch = args[1]
 elseif args[1] == "reinstall" then
+    fs.delete("/install_hexlator.lua")
     shell.run("wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator.lua /install_hexlator.lua")
     shell.run("/install_hexlator.lua")
     shell.exit()
