@@ -16,7 +16,7 @@ end
 local function getRunningPath()
     local runningProgram = shell.getRunningProgram()
     local programName = fs.getName(runningProgram)
-    return runningProgram:sub( 1, #runningProgram - #programName )
+    return runningProgram:sub(1, #runningProgram - #programName)
 end
 
 local hexFile
@@ -48,10 +48,10 @@ local srRaw = textutils.unserialiseJSON(srFile.readAll())
 
 -- Strips all non-alphanumerics plus underscores
 local function stripString(iString)
-    local rString,_ = string.gsub(iString," ","_")
-    rString,_ = string.gsub(rString,"-","n")
-    rString,_ = string.gsub(rString,"+","p")
-    rString,_ = string.gsub(rString,"[^%w_]+","")
+    local rString, _ = string.gsub(iString, " ", "_")
+    rString, _ = string.gsub(rString, "-", "n")
+    rString, _ = string.gsub(rString, "+", "p")
+    rString, _ = string.gsub(rString, "[^%w_]+", "")
     return rString
 end
 
@@ -61,8 +61,8 @@ end
 
 --load raw symbol registry translation table
 local symbolRegistry = {}
-for k,v in pairs(srRaw) do
-    local sName =  k --stripString(k)
+for k, v in pairs(srRaw) do
+    local sName = k  --stripString(k)
     symbolRegistry[sName] = {
         ["angles"] = v["pattern"],
         ["startDir"] = v["direction"],
@@ -78,8 +78,8 @@ symbolRegistry["Bookkeeper's Gambit"] = nil
 symbolRegistry["Numerical Reflection"] = nil
 
 local strippedRegistry = {}
-for k,v in pairs(srRaw) do
-    local sName =  stripString(k)
+for k, v in pairs(srRaw) do
+    local sName = stripString(k)
     strippedRegistry[sName] = {
         ["angles"] = v["pattern"],
         ["startDir"] = v["direction"],
@@ -110,7 +110,7 @@ end
 local function splitCommas(str)
     local valTable = {}
     local i = 1
-    for k,_ in string.gmatch(str, "([^,]+)") do
+    for k, _ in string.gmatch(str, "([^,]+)") do
         valTable[i] = k
         i = i + 1
     end
@@ -120,10 +120,10 @@ end
 -- All identifiers and associated functions to correctly grab and format data given the raw string and a token
 local identRegistry = {
     ["@null"] = function()
-        return {["null"] = true}
+        return { ["null"] = true }
     end,
     ["@garbage"] = function()
-        return {["garbage"] = true}
+        return { ["garbage"] = true }
     end,
     ["@true"] = function()
         return true
@@ -133,11 +133,11 @@ local identRegistry = {
     end,
     ["@iota_type"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
-        return {["iotaType"] = str}
+        return { ["iotaType"] = str }
     end,
     ["@entity_type"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
-        return {["entityType"] = str}
+        return { ["entityType"] = str }
     end,
     ["@item_type"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
@@ -146,20 +146,20 @@ local identRegistry = {
             ["true"] = true,
             ["false"] = false
         }
-        local returnTable =  {
-            ["isItem"] =  bools[stripWhitespaces(valTable[2])],
+        local returnTable = {
+            ["isItem"] = bools[stripWhitespaces(valTable[2])],
             ["itemType"] = stripWhitespaces(valTable[1]),
         }
         return returnTable
     end,
     ["@entity"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
-        return {["uuid"] = str}
+        return { ["uuid"] = str }
     end,
     ["@pattern"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
         local valTable = splitCommas(str)
-        local returnTable =  {
+        local returnTable = {
             ["startDir"] = valTable[1],
             ["angles"] = valTable[2],
         }
@@ -170,12 +170,12 @@ local identRegistry = {
     end,
     ["@gate"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
-        return {["gate"] = str}
+        return { ["gate"] = str }
     end,
     ["@vec"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
         local valTable = splitCommas(str)
-        local returnTable =  {
+        local returnTable = {
             ["x"] = tonumber(valTable[1]),
             ["y"] = tonumber(valTable[2]),
             ["z"] = tonumber(valTable[3])
@@ -188,7 +188,7 @@ local identRegistry = {
     ["@matrix"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
         local valTable = splitCommas(str)
-        local returnTable =  {
+        local returnTable = {
             ["col"] = tonumber(valTable[1]),
             ["row"] = tonumber(valTable[2]),
             ["matrix"] = tonumber(valTable[3])
@@ -198,9 +198,10 @@ local identRegistry = {
     ["@mote"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
         local valTable = splitCommas(str)
-        local returnTable =  {
-            ["moteUuid"] = tonumber(valTable[1]),
-            ["itemID"] = tonumber(valTable[2])
+        local returnTable = {
+            ["moteUuid"] = valTable[1],
+            ["itemID"] = valTable[2],
+            ["nexusUuid"] = valTable[3]
         }
         return returnTable
     end,
@@ -222,12 +223,12 @@ local identRegistry = {
         for i = 2, #str do
             local c = string.sub(str, i, i)
             local p = hexicon.pattern[c]
-            local ps = string.sub(p, 1, 1) 
+            local ps = string.sub(p, 1, 1)
             local fix = hexicon.offset[c] and firstStrokeFix[ps] or ps
             print(c, p, ps, hexicon.offset[c], fix)
             angles = angles .. fix .. string.sub(p, 2)
         end
-        local returnTable =  {
+        local returnTable = {
             ["startDir"] = hexicon.start[str:sub(1, 1)],
             ["angles"] = angles,
         }
@@ -248,10 +249,10 @@ local identRegistry = {
             num = num * -1
             angles = "dedd"
         end
-        for i=1,num do
+        for i = 1, num do
             angles = angles .. "w"
         end
-        local returnTable =  {
+        local returnTable = {
             ["startDir"] = "WEST",
             ["angles"] = angles,
         }
@@ -261,7 +262,7 @@ local identRegistry = {
         return returnTable
     end,
     ["Bookkeeper's Gambit"] = function(s, token)
-        local combos ={
+        local combos = {
             ["--"] = "w",
             ["-v"] = "ea",
             ["vv"] = "da",
@@ -275,12 +276,12 @@ local identRegistry = {
             if str:sub(1, 1) == "v" then
                 angles = "a"
             end
-            for i=1,#str-1 do
-                local sub = str:sub(i, i+1)
-                angles = angles..combos[sub]
+            for i = 1, #str - 1 do
+                local sub = str:sub(i, i + 1)
+                angles = angles .. combos[sub]
             end
         end
-        local returnTable =  {
+        local returnTable = {
             ["startDir"] = "EAST",
             ["angles"] = angles,
         }
@@ -293,14 +294,14 @@ local identRegistry = {
         local str = getColonParens(s, token["start"])
         local num = tonumber(str)
         local angles = "qaqdd"
-        for i=1,num do
+        for i = 1, num do
             local dir = "q"
             if i % 2 == 0 then
                 dir = "e"
             end
             angles = angles .. dir
         end
-        local returnTable =  {
+        local returnTable = {
             ["startDir"] = "WEST",
             ["angles"] = angles,
         }
@@ -313,11 +314,11 @@ local identRegistry = {
         local str = getColonParens(s, token["start"])
         local num = tonumber(str)
         local angles = "aaeaad"
-        for i=3,num do
+        for i = 3, num do
             local dir = "w"
             angles = angles .. dir
         end
-        local returnTable =  {
+        local returnTable = {
             ["startDir"] = "WEST",
             ["angles"] = angles,
         }
@@ -330,11 +331,11 @@ local identRegistry = {
         local str = getColonParens(s, token["start"])
         local num = tonumber(str)
         local angles = "aawdde"
-        for i=3,num do
+        for i = 3, num do
             local dir = "w"
             angles = angles .. dir
         end
-        local returnTable =  {
+        local returnTable = {
             ["startDir"] = "WEST",
             ["angles"] = angles,
         }
@@ -350,22 +351,22 @@ local stringProccessRegistry = {
     ["#file"] = function(s, token)
         local filenames = getBalancedParens(s, token["start"])
         --strips spaces and newlines out of filenames
-        filenames = string.gsub(filenames," ","")
-        filenames = string.gsub(filenames,"\n","")
+        filenames = string.gsub(filenames, " ", "")
+        filenames = string.gsub(filenames, "\n", "")
         local valTable = splitCommas(filenames)
         local insertStr = ""
-        for i,fName in ipairs(valTable) do
-            vPrint("Inserting "..fName)
+        for i, fName in ipairs(valTable) do
+            vPrint("Inserting " .. fName)
             local file = fs.open(fName, "r")
             local content = file.readAll()
             -- Strip line comments from string before inserting
             content = string.gsub(content, "// .-\n", "")
             file.close()
-            insertStr = insertStr..content
+            insertStr = insertStr .. content
         end
         local firstChar = token["start"]
         local lastChar = token["end"] + #filenames + 2
-        local out =  s:sub(1,firstChar-1).."\n"..insertStr.."\n"..s:sub(lastChar+1)
+        local out = s:sub(1, firstChar - 1) .. "\n" .. insertStr .. "\n" .. s:sub(lastChar + 1)
 
         --local debug = fs.open(getRunningPath().."debug", "w")
         --debug.write(out)
@@ -374,40 +375,40 @@ local stringProccessRegistry = {
         return out
     end,
     ["#wget"] = function(s, token)
-        local fileName,_,lastC1 = getBalancedParens(s, token["start"])
-        local url,_,lastC2 = getBalancedParens(s, lastC1)
+        local fileName, _, lastC1 = getBalancedParens(s, token["start"])
+        local url, _, lastC2 = getBalancedParens(s, lastC1)
         --strip out newlines
-        fileName = string.gsub(fileName,"\n","")
-        url = string.gsub(url,"\n","")
+        fileName = string.gsub(fileName, "\n", "")
+        url = string.gsub(url, "\n", "")
 
-        local filePath = "/"..getRunningPath().."temp/"..fileName
+        local filePath = "/" .. getRunningPath() .. "temp/" .. fileName
         if fs.exists(filePath) then
-            vPrint("Deleting "..filePath.."...")
+            vPrint("Deleting " .. filePath .. "...")
             shell.run("delete", filePath)
         end
 
-        vPrint("Downloading "..url)
+        vPrint("Downloading " .. url)
         shell.run(string.format("wget %s %s", url, filePath))
 
-        vPrint("Inserting "..fileName)
+        vPrint("Inserting " .. fileName)
         local file = fs.open(filePath, "r")
         local content = file.readAll()
         -- Strip line comments from string before inserting
         content = string.gsub(content, "// .-\n", "")
         file.close()
-        
-        local out =  s:sub(1,token["start"]-1).."\n"..content.."\n"..s:sub(lastC2+1)
+
+        local out = s:sub(1, token["start"] - 1) .. "\n" .. content .. "\n" .. s:sub(lastC2 + 1)
 
         --local debug = fs.open(getRunningPath().."debug", "w")
         --debug.write(out)
-       --debug.close()
+        --debug.close()
 
         return out
     end,
     ["#git"] = function(s, token)
         local fileName = getBalancedParens(s, token["start"])
         --strip out newlines
-        fileName = string.gsub(fileName,"\n","")
+        fileName = string.gsub(fileName, "\n", "")
 
         if string.match(fileName, "^/") then
             url = spell_url:match("(.-contents/)"):match("^(.-)/$")
@@ -416,39 +417,39 @@ local stringProccessRegistry = {
         end
 
         local file_url = url .. fileName
-        vPrint("Downloading "..file_url)
-        
+        vPrint("Downloading " .. file_url)
+
         local content = github.api_response(file_url).content
 
-        vPrint("Inserting "..fileName)
+        vPrint("Inserting " .. fileName)
         -- local out =  s:sub(1,token["start"]-1).."\n"..content.."\n"..s:sub(lastC2+1)
         local firstChar = token["start"]
         local lastChar = token["end"] + #fileName
-        local out =  s:sub(1,firstChar-1).."\n"..content.."\n"..s:sub(lastChar+1)
+        local out = s:sub(1, firstChar - 1) .. "\n" .. content .. "\n" .. s:sub(lastChar + 1)
 
         --local debug = fs.open(getRunningPath().."debug", "w")
         --debug.write(out)
-       --debug.close()
+        --debug.close()
 
         return out
     end,
     ["#def"] = function(s, token, reg)
-        local funcName,_,lastC1 = getBalancedParens(s, token["start"])
-        local funcBody,_,lastC2 = getBalancedParens(s, lastC1)
+        local funcName, _, lastC1 = getBalancedParens(s, token["start"])
+        local funcBody, _, lastC2 = getBalancedParens(s, lastC1)
         -- Strip line comments from string before inserting
         funcBody = string.gsub(funcBody, "// .-\n", "")
-        local out = s:sub(1,token["start"]-1) .. s:sub(lastC2+1)
-        
+        local out = s:sub(1, token["start"] - 1) .. s:sub(lastC2 + 1)
+
         -- add function to the registry
-        reg["$"..funcName] = function(s, token)
+        reg["$" .. funcName] = function(s, token)
             local funcStr = funcBody
 
-            local argCounter=1
+            local argCounter = 1
             local lastC = token["start"]
             while argCounter < 10 do
-                local i, j = string.find(funcStr, string.format("<%s>",argCounter))
+                local i, j = string.find(funcStr, string.format("<%s>", argCounter))
                 if i then
-                    local arg,_,lastChar = getBalancedParens(s, lastC)
+                    local arg, _, lastChar = getBalancedParens(s, lastC)
                     lastC = lastChar
                     -- replace parameters with proper values (old version is commented out just in case)
                     -- funcStr = funcStr:sub(1,i-1).." "..arg.." "..funcStr:sub(j+1)
@@ -459,7 +460,7 @@ local stringProccessRegistry = {
                 end
             end
 
-            local out2 =  s:sub(1,token["start"]-1).."\n"..funcStr.."\n"..s:sub(lastC+2)
+            local out2 = s:sub(1, token["start"] - 1) .. "\n" .. funcStr .. "\n" .. s:sub(lastC + 2)
             return out2
         end
 
@@ -490,7 +491,7 @@ end
 -- Walks through a string and checks for presence of tokens from registry and initializes them
 local function tokenSearch(s, registry)
     local tokens = {}
-    for k,_ in pairs(registry) do
+    for k, _ in pairs(registry) do
         local i, j = string.find(s, k)
         while i do
             if not tokens[i] or j > tokens[i]["end"] then
@@ -501,7 +502,7 @@ local function tokenSearch(s, registry)
                     ["value"] = nil
                 }
             end
-            i, j = string.find(s, k, i+1)
+            i, j = string.find(s, k, i + 1)
         end
     end
     return tokens
@@ -512,7 +513,7 @@ end
 local function sortTokens(t)
     local keys = {}
     local returnTable = {}
-    for k,_ in pairs(t) do
+    for k, _ in pairs(t) do
         table.insert(keys, k)
     end
     table.sort(keys)
@@ -525,15 +526,15 @@ end
 -- Accepts a table of tables, returns a table that contains all key/value pairs
 local function combineTables(tTable)
     local final = {}
-    for _,v in pairs(tTable) do
-        for k2,v2 in pairs(v) do
+    for _, v in pairs(tTable) do
+        for k2, v2 in pairs(v) do
             final[k2] = v2
         end
     end
     return final
 end
 
-local myStack = {{}}
+local myStack = { {} }
 local stack = {
     push = function(e)
         table.insert(myStack, e)
@@ -546,8 +547,8 @@ local stack = {
     end
 }
 
-local function dump_table(t,indent)
-    indent = indent or 0    
+local function dump_table(t, indent)
+    indent = indent or 0
     for key, value in pairs(t) do
         if type(value) == "table" then
             vPrint(string.rep("  ", indent) .. key .. " = {")
@@ -559,8 +560,8 @@ local function dump_table(t,indent)
     end
 end
 
-local function table_to_string(t,indent)
-    indent = indent or 0    
+local function table_to_string(t, indent)
+    indent = indent or 0
     local output = ""
     for key, value in pairs(t) do
         if type(value) == "table" then
@@ -575,13 +576,13 @@ local function table_to_string(t,indent)
 end
 
 local function compileChunk(tokens)
-    for k,v in pairs(tokens) do
+    for k, v in pairs(tokens) do
         if v["content"] == "%[" then
             vPrint("List start...")
             if turtleComplie then
-                stack.push({["iota$serde"] = "hextweaks:list"})
+                stack.push({ ["iota$serde"] = "hextweaks:list" })
             else
-                stack.push({["iota$serde"] = "hextweaks:list"})
+                stack.push({ ["iota$serde"] = "hextweaks:list" })
             end
         elseif v["content"] == "%]" then
             vPrint("... list end.")
@@ -591,7 +592,13 @@ local function compileChunk(tokens)
         else
             local t = stack.top()
             table.insert(t, v["value"])
-            if gVerb == true then print(k,v["start"],v["end"]," ",v["content"], v["value"]) end
+            if gVerb == true then
+                if type(v.value) == "table" then
+                    pretty = require "cc.pretty"
+                    v.value = pretty.pretty(v.value)
+                end
+                print(k, v["start"], v["end"], " ", v["content"], v["value"])
+            end
         end
     end
     --dump_table(myStack,0)
@@ -608,7 +615,7 @@ local function stringProcess(s)
     str = string.gsub(str, "/%*.-%*/", "")
 
     -- Create temp folder for #wget commands
-    shell.execute("mkdir", "/"..getRunningPath().."temp")
+    shell.execute("mkdir", "/" .. getRunningPath() .. "temp")
 
     -- Replace string with version of itself with the specified file contents/function inside instead
     vPrint("Parsing string processes...")
@@ -620,9 +627,9 @@ local function stringProcess(s)
     end
 
     -- Delete temp folder for #wget commands
-    shell.execute("delete", "/"..getRunningPath().."temp")
+    shell.execute("delete", "/" .. getRunningPath() .. "temp")
 
-    
+
 
     return str
 end
@@ -638,18 +645,18 @@ local function removeOverlappingTokens(tokens)
             ["value"] = token["value"]
         }
     end
-    
+
     local i = 1
     while i < #copyTokens do
         local current = copyTokens[i]
         local next = copyTokens[i + 1]
-        
+
         -- Check if current token overlaps with the next one
         if current["end"] >= next["start"] then
             -- Determine which token is shorter
             local currentLength = current["end"] - current["start"]
             local nextLength = next["end"] - next["start"]
-            
+
             if currentLength <= nextLength then
                 -- Remove the current (shorter) token
                 table.remove(copyTokens, i)
@@ -662,7 +669,7 @@ local function removeOverlappingTokens(tokens)
             i = i + 1
         end
     end
-    
+
     return copyTokens
 end
 
@@ -686,13 +693,13 @@ local function compile(str, stripped, verbose, debug_output)
 
     vPrint("Parsing identifiers...")
     searches["identifiers"] = tokenSearch(str, identRegistry)
-    for _,v in pairs(searches["identifiers"]) do
+    for _, v in pairs(searches["identifiers"]) do
         runTokenFunc(str, identRegistry, v)
     end
 
     vPrint("Parsing symbols...")
     searches["symbols"] = tokenSearch(str, reg)
-    for _,v in pairs(searches["symbols"]) do
+    for _, v in pairs(searches["symbols"]) do
         setSymbolValue(str, reg, v)
     end
     local tokens = removeOverlappingTokens(sortTokens(combineTables(searches)))
@@ -710,7 +717,7 @@ local function compile(str, stripped, verbose, debug_output)
         debugData = debugData .. label("TOKENS") .. table_to_string(tokens)
         debugData = debugData .. label("OUTPUT") .. table_to_string(output)
 
-        local f = fs.open(getRunningPath().."debug.txt", "w")
+        local f = fs.open(getRunningPath() .. "debug.txt", "w")
         f.write(debugData)
         f.close()
     end
