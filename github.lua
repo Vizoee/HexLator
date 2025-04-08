@@ -20,8 +20,8 @@ function github.api_response(url)
         return
     end
     
-    config.close()
     local settings = textutils.unserialiseJSON(config.readAll())
+    config.close()
 
     -- Check if the URL is valid
     local ok, err = http.checkURL(url)
@@ -30,7 +30,7 @@ function github.api_response(url)
             printError(err or "No default repo.")
             return
         end
-        
+
         url = settings["default_repo"].."/blob/"..settings["branch"].."/"..url
         
         ok, err = http.checkURL(url)
