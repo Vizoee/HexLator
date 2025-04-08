@@ -58,6 +58,7 @@ else
     local old_config = textutils.unserialiseJSON(file.readAll())
     file.close()
 
+    fs.delete("/.config/hexlator.json")
     shell.execute("wget", raw_url.."config.json", "/.config/hexlator.json")
 
     local new_file = fs.open("/.config/hexlator.json", "r")
