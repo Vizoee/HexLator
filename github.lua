@@ -12,24 +12,27 @@ function github.convert_url(url)
 end
 
 function github.api_response(url)
+    local config
+    if fs.exists("/.config/hexlator.json") then
+        config = fs.open("/.config/hexlator.json", "r")
+    else 
+        printError(err or "Invalid config file.")
+        return
+    end
+    
+    config.close()
+    local settings = textutils.unserialiseJSON(config.readAll())
+
     -- Check if the URL is valid
     local ok, err = http.checkURL(url)
     if not ok then
-        local config
-        if fs.exists("/.config/hexlator.json") then
-            config = fs.open("/.config/hexlator.json", "r")
-        else 
-            printError(err or "Invalid config file.")
-            return
-        end
-        local settings = textutils.unserialiseJSON(config.readAll())
-        config.close()
         if settings["default_repo"] == "" then
             printError(err or "No default repo.")
             return
         end
+        
         url = settings["default_repo"].."/blob/"..settings["branch"].."/"..url
-        print(url)
+        
         ok, err = http.checkURL(url)
         if not ok then
             printError(err or "Cant connect to default repo.")
@@ -44,7 +47,18 @@ function github.api_response(url)
         return github.cache[apiurl]
     end
 
-    local response = http.get(apiurl).readAll()
+    local response
+    if settings["token"] and settings["token"] ~= "" then
+        print("Using token")
+        local headers = {
+            ["Authorization"] = "token " .. settings["token"],
+            ["User-Agent"] = "ComputerCraft"
+        }
+        response = http.get(apiurl, headers).readAll()
+    else
+        response = http.get(apiurl).readAll()
+    end
+
     local responseJson = textutils.unserialiseJSON(response)
     local name = responseJson.name
     local base64 = require("base64")
