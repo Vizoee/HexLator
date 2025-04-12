@@ -188,8 +188,12 @@ local identRegistry = {
     ["@matrix"] = function(s, token)
         local str = getBalancedParens(s, token["start"])
         local valTable = splitCommas(str)
-        local matrix = string.match(str, "%[([%d%s,])%]")
-        matrix = splitCommas(matrix)
+        local matrixStr = string.match(str, "%<([%d%s,]+)%>")
+        print(matrixStr)
+        local matrix = {}
+        for k in string.gmatch(matrixStr, "%d+") do
+            table.insert(matrix, tonumber(k))
+        end
         local returnTable = {
             ["col"] = tonumber(valTable[1]),
             ["row"] = tonumber(valTable[2]),
