@@ -4,12 +4,13 @@ if not args[1] then
     branch = "main"
 elseif args[1] == "main" or args[1] == "dev" then
     branch = args[1]
-elseif args[1] == "all" then
+elseif args[1] == "reinstall" then
+    fs.delete("/install_hexlator.lua")
     shell.run("wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator.lua /install_hexlator.lua")
     shell.run("/install_hexlator.lua")
     shell.exit()
 else
-    print("Usage: install_hexlator [main|dev] [install path]")
+    print("Usage: install_hexlator [main|dev|reinstall] [install path] [install symbols path]")
     shell.exit()
 end
 local raw_url = "https://raw.githubusercontent.com/Vizoee/HexLator/"..branch.."/"
@@ -58,6 +59,7 @@ else
     local old_config = textutils.unserialiseJSON(file.readAll())
     file.close()
 
+    fs.delete("/.config/hexlator.json")
     shell.execute("wget", raw_url.."config.json", "/.config/hexlator.json")
 
     local new_file = fs.open("/.config/hexlator.json", "r")
