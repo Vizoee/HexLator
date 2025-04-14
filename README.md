@@ -65,7 +65,7 @@ Numerical Reflection           //Pattern via name
 @iota_type("type")             //Iota type via string
 @item_type("type", isItem)     //Item and Block types via string and bool
 @mote("moteUuid", "itemID")    //Mote via strings
-@matrix(col, row, [matrix])    //Matrix
+@matrix(col, row, <matrix>)    //Matrix
 @hexicon(ehe)                  //String to hexicon pattern
 ```
 
