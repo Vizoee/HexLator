@@ -221,17 +221,23 @@ local identRegistry = {
     ['@hexicon'] = function(s, token)
         local str = getBalancedParens(s, token["start"])
         local firstStrokeFix = {
-            ["q"] = "a",
-            ["w"] = "q"
+            ["NORTH_EAST"] = "a",
+            ["EAST"] = "q"
         }
-        local angles = string.sub(hexicon[string.sub(str, 1, 1)].pattern, 2)
+        local startToAngle = {
+            ["EAST"] = "w",
+            ["NORTH_EAST"] = "q"
+        }
+        local char = string.sub(str, 1, 1)
+        local angles = hexicon[char].pattern
+        local offset = hexicon[char].offset
         for i = 2, #str do
-            local c = string.sub(str, i, i)
-            local p = hexicon[c].pattern
-            local ps = string.sub(p, 1, 1)
-            local fix = hexicon[c].offset and firstStrokeFix[ps] or ps
-            print(c, p, ps, hexicon[c].offset, fix)
-            angles = angles .. fix .. string.sub(p, 2)
+            char = string.sub(str, i, i)
+            local pattern = hexicon[char].pattern
+            local start = hexicon[char].start
+            local startFix = offset and firstStrokeFix[start] or startToAngle[start]
+            angles = angles .. startFix .. pattern
+            offset = hexicon[char].offset
         end
         local returnTable = {
             ["startDir"] = hexicon[str:sub(1, 1)].start,
