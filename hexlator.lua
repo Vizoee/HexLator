@@ -224,17 +224,17 @@ local identRegistry = {
             ["q"] = "a",
             ["w"] = "q"
         }
-        local angles = string.sub(hexicon.pattern[string.sub(str, 1, 1)], 2)
+        local angles = string.sub(hexicon[string.sub(str, 1, 1)].pattern, 2)
         for i = 2, #str do
             local c = string.sub(str, i, i)
-            local p = hexicon.pattern[c]
+            local p = hexicon[c].pattern
             local ps = string.sub(p, 1, 1)
-            local fix = hexicon.offset[c] and firstStrokeFix[ps] or ps
-            print(c, p, ps, hexicon.offset[c], fix)
+            local fix = hexicon[c].offset and firstStrokeFix[ps] or ps
+            print(c, p, ps, hexicon[c].offset, fix)
             angles = angles .. fix .. string.sub(p, 2)
         end
         local returnTable = {
-            ["startDir"] = hexicon.start[str:sub(1, 1)],
+            ["startDir"] = hexicon[str:sub(1, 1)].start,
             ["angles"] = angles,
         }
         if turtleComplie then
