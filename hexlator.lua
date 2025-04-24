@@ -216,7 +216,24 @@ local identRegistry = {
     end,
     ['@str'] = function(s, token)
         local str = getBalancedParens(s, token["start"])
-        return str
+        local input = str  -- your broken string
+        local fixed = {}
+
+        local i = 1
+        while i <= #input do
+            local b = input:byte(i)
+            if b == 0xC2 and input:byte(i+1) == 0xA7 then
+                -- Skip the "Â" byte, keep only "§"
+                table.insert(fixed, string.char(0xA7))
+                i = i + 2
+            else
+                table.insert(fixed, string.char(b))
+                i = i + 1
+            end
+        end
+
+        local result = table.concat(fixed)
+        return result
     end,
     ['@hexicon'] = function(s, token)
         local str = getBalancedParens(s, token["start"])
