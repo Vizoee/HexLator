@@ -439,7 +439,7 @@ local stringProccessRegistry = {
         fileName = string.gsub(fileName, "\n", "")
 
         if string.match(fileName, "^/") then
-            url = spell_url:match("(.-contents/.-/)") or ""
+            url = spell_url:match("(.-contents)") or ""
         else
             url = ""
         end
