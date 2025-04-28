@@ -19,7 +19,7 @@ local function getRunningPath()
     return runningProgram:sub(1, #runningProgram - #programName)
 end
 
-local hexicon = require("hexicon.lua")
+local hexicon = require("hexicon")
 
 --load symbol-registry.json
 local srFile
