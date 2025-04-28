@@ -40,6 +40,7 @@ shell.execute("wget", raw_url.."github.lua", install_path.."github.lua")
 shell.execute("wget", raw_url.."base64.lua", install_path.."base64.lua")
 shell.execute("wget", raw_url.."json.lua", install_path.."json.lua")
 shell.execute("wget", raw_url.."hexicon.json", install_path.."hexicon.json")
+shell.execute("wget", raw_url.."hexicon.lua", install_path.."hexicon.lua")
 
 local function updateValues(new_table, old_table)
     for k, v in pairs(old_table) do
