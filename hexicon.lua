@@ -9,9 +9,9 @@ end
 
 if fs.exists(getRunningPath() .. hexFileName) then
     hexFile = fs.open(getRunningPath() .. hexFileName, "r")
-elseif fs.exists("/programFiles/hexlator/" .. hexFileName) then
-    hexFile = fs.open("/programFiles/hexlator/" .. hexFileName, "r")
-else
+elseif fs.exists("/programfiles/hexlator/" .. hexFileName) then
+    hexFile = fs.open("/programfiles/hexlator/" .. hexFileName, "r")
+elseif fs.exists("/disk/hexlator/" .. hexFileName) then
     hexFile = fs.open("/disk/hexlator/" .. hexFileName, "r")
 end
 if not hexFile then
