@@ -74,23 +74,7 @@ else
     final_file.close()
 end
 
-local startup = fs.open("startup.lua", "w")
-startup.write([[
-local folder = ".startup"
-if not fs.exists(folder) then
-    fs.makeDir(folder)
-else
-    local files = fs.list(folder)
-    for _, file in ipairs(files) do
-        if string.sub(file, -4) == ".lua" then
-            shell.run(folder .. "/" .. file)
-        end
-    end
-end
-]])
-startup.close()
-
-local file = fs.open("/.startup/hexlator.lua","w")
+local file = fs.open("/startup/hexlator.lua","w")
 file.write(string.format('shell.setAlias("hexget", "%shexget.lua") shell.setAlias("hexxyedit", "%shexxyedit.lua") shell.setAlias("github", "%sgithub.lua")',install_path, install_path, install_path))
 file.close()
 os.reboot()
