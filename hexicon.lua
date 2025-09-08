@@ -19,6 +19,7 @@ if not hexFile then
     return nil
 end
 local hexicon = textutils.unserialiseJSON(hexFile.readAll())
+hexFile.close()
 
 local function toHexicon(str)
     local firstStrokeFix = {
