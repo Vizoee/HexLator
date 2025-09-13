@@ -13,8 +13,17 @@ wget https://raw.githubusercontent.com/Vizoee/HexLator/main/install_hexlator.lua
 ## Usage example
 Compile a .hexpattern from the internet into a Focus:
 ```
-hexget https://raw.githubusercontent.com/Vizoee/HexLator/main/example.hexpattern
+hexget https://github.com/Vizoee/HexLator/blob/main/example.hexpattern
 ```
+
+## Config
+```.config/hexlator.json``` is a config file containing few options for easier working with this tool. This is very usefull because of ```Copy relative path``` option many IDE have. When you fill config, you can, instead of running ```hexget https://github.com/Vizoee/HexLator/blob/main/example.hexpattern```, run ```hexget example.hexpattern```. 
+
+Values:
+- default_repo: string - contains link to repo that given file belongs to as well as all #git files. example: ```"default_repo":"https://github.com/Vizoee/HexLator"```
+- branch: string - contains branch from which toll should download files. example: ```"branch":"main"```
+- cashed: boolean - dictates weather #git should be redownloaded each time. example: ```"cashed":false```
+- token: string - github token for reading repo. Very usefull as without it there is limit of 60 requests per hour, with token its 5000 requests. example: ```"token":"github_pat_1234..."```
 
 ## Syntax
 
